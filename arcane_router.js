@@ -96,8 +96,8 @@
 
   //Routers
 
-  Router = function(elementId) {
-    // this.element = document.getElementById(elementId);
+  var Router = ArcaneRouter = function($el) {
+    this.$el = $el;
     this.routes = [];
     this.nextId = 0;
     this.id = RouteMaster.nextId;
@@ -123,6 +123,18 @@
     return undefined;
   }
 
+
+  Router.prototype.when = function(config) {
+    // current template is the only one supported
+    if (!config.hasOwnProperty('url')) {
+      console.error("config object must have a url");
+    };
+
+
+
+
+    return this;
+  }
 
 
 
