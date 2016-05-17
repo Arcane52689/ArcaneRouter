@@ -124,14 +124,22 @@
   }
 
 
-  Router.prototype.when = function(config) {
+  Router.prototype.when = function(url, config) {
     // current template is the only one supported
-    if (!config.hasOwnProperty('url')) {
-      console.error("config object must have a url");
-    };
+    if (typeof url !== "string") {
+      console.error("Router must take a string");
+    }
 
-
-
+    this.addRoute(url, function(params) {
+      config.$el = this.$el;
+      config.params = params;
+      if (this.view) {
+        this.view.stopListening();
+      }
+      this.view = new config.view(config);
+      this.view.on("click", "main", function() {console.log("WHAT")});
+      this.view._render();
+    }.bind(this))
 
     return this;
   }
